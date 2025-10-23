@@ -16,51 +16,95 @@ export const Route = createFileRoute('/explore-data/')({
 // CUSTOMIZE: the filter definitions
 const filterConfigs: FilterConfig[] = [
   {
-    field: 'Discovery Method',
-    label: 'Discovery Method',
+    field: 'mag',
+    label: 'Magnitude',
+    operator: 'between-inclusive',
+    filterComponent: 'RangeSlider',
+    filterProps: {
+      min: 0,
+      max: 10,
+      step: 0.1,
+    },
+    paramType: 'minmax',
+    paramTypeOptions: {
+      minParam: 'minmagnitude',
+      maxParam: 'maxmagnitude',
+    },
+  },
+  {
+    field: 'depth',
+    label: 'Depth (km)',
+    operator: 'between-inclusive',
+    filterComponent: 'RangeSlider',
+    filterProps: {
+      min: 0,
+      max: 700,
+      step: 10,
+    },
+    paramType: 'minmax',
+    paramTypeOptions: {
+      minParam: 'mindepth',
+      maxParam: 'maxdepth',
+    },
+  },
+  {
+    field: 'type',
+    label: 'Event Type',
     operator: 'contains-one-of',
     filterComponent: 'CheckboxList',
     filterProps: {
       options: [
         {
-          label: 'Astrometry',
-          value: 'Astrometry',
+          label: 'Earthquake',
+          value: 'earthquake',
         },
         {
-          label: 'Disk Kinematics',
-          value: 'Disk Kinematics',
+          label: 'Quarry Blast',
+          value: 'quarry blast',
         },
         {
-          label: 'Eclipse Timing Variations',
-          value: 'Eclipse Timing Variations',
+          label: 'Explosion',
+          value: 'explosion',
         },
         {
-          label: 'Imaging',
-          value: 'Imaging',
+          label: 'Ice Quake',
+          value: 'ice quake',
         },
         {
-          label: 'Microlensing',
-          value: 'Microlensing',
-        },
-        {
-          label: 'Radial Velocity',
-          value: 'Radial Velocity',
-        },
-        {
-          label: 'Transit',
-          value: 'Transit',
+          label: 'Other',
+          value: 'other event',
         },
       ],
     },
   },
   {
-    field: 'Mass',
-    label: 'Mass',
-    operator: 'between-inclusive',
-    filterComponent: 'RangeSlider',
+    field: 'alert',
+    label: 'Alert Level',
+    operator: 'contains-one-of',
+    filterComponent: 'CheckboxList',
     filterProps: {
-      min: 0,
-      max: 10000,
+      options: [
+        {
+          label: 'None',
+          value: 'none',
+        },
+        {
+          label: 'Green',
+          value: 'green',
+        },
+        {
+          label: 'Yellow',
+          value: 'yellow',
+        },
+        {
+          label: 'Orange',
+          value: 'orange',
+        },
+        {
+          label: 'Red',
+          value: 'red',
+        },
+      ],
     },
   },
 ];
@@ -74,6 +118,9 @@ function DataExplorer() {
   const [searchTerm, setSearchTerm] = useState('');
   const [previewItem, setPreviewItem] = useState<any>();
   const [showFiltersPanel, setShowFiltersPanel] = useState(true);
+  const [filtersPanelPosition, setFiltersPanelPosition] = useState<
+    'left' | 'right'
+  >('left');
 
   const handleCloseFilters = () => {
     setShowFiltersPanel(false);
@@ -81,6 +128,10 @@ function DataExplorer() {
 
   const handleToggleFilters = () => {
     setShowFiltersPanel(!showFiltersPanel);
+  };
+
+  const handleToggleFilterPosition = () => {
+    setFiltersPanelPosition(filtersPanelPosition === 'left' ? 'right' : 'left');
   };
 
   const handleClosePreview = () => {
@@ -92,9 +143,9 @@ function DataExplorer() {
       <Box>
         <PageHeader
           // CUSTOMIZE: the page title
-          pageTitle="Explore Data App"
+          pageTitle="Earthquake Data Explorer"
           // CUSTOMIZE: the page description
-          description="Description of this app"
+          description="Explore earthquake events using USGS earthquake data"
           sx={{
             marginBottom: 1,
             padding: 2,
@@ -102,7 +153,7 @@ function DataExplorer() {
         />
         <Box>
           <Stack direction="row">
-            {showFiltersPanel && (
+            {showFiltersPanel && filtersPanelPosition === 'left' && (
               <Box
                 sx={{
                   width: '350px',
@@ -111,6 +162,8 @@ function DataExplorer() {
                 <FiltersPanel
                   filterConfigs={filterConfigs}
                   onClose={handleCloseFilters}
+                  onTogglePosition={handleToggleFilterPosition}
+                  position={filtersPanelPosition}
                 />
               </Box>
             )}
@@ -142,6 +195,20 @@ function DataExplorer() {
                 <PreviewPanel
                   previewItem={previewItem}
                   onClose={handleClosePreview}
+                />
+              </Box>
+            )}
+            {showFiltersPanel && filtersPanelPosition === 'right' && (
+              <Box
+                sx={{
+                  width: '350px',
+                }}
+              >
+                <FiltersPanel
+                  filterConfigs={filterConfigs}
+                  onClose={handleCloseFilters}
+                  onTogglePosition={handleToggleFilterPosition}
+                  position={filtersPanelPosition}
                 />
               </Box>
             )}

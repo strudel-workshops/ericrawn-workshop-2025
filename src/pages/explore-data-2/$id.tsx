@@ -12,12 +12,12 @@ import { PageHeader } from '../../components/PageHeader';
 import { useDetailQuery } from '../../hooks/useDetailQuery';
 import { LabelValueTable } from '../../components/LabelValueTable';
 
-export const Route = createFileRoute('/explore-data/$id')({
+export const Route = createFileRoute('/explore-data-2/$id')({
   component: DataDetailPage,
 });
 
 /**
- * Detail view for a selected row from the` <DataExplorer>` in the explore-data Task Flow.
+ * Detail view for a selected row from the` <DataExplorer>` in the explore-data-2 Task Flow.
  */
 function DataDetailPage() {
   const { id } = Route.useParams();

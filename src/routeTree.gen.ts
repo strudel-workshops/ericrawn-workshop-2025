@@ -18,11 +18,13 @@ import { Route as SearchDataRepositoriesIndexImport } from './pages/search-data-
 import { Route as PlaygroundIndexImport } from './pages/playground/index';
 import { Route as MonitorActivitiesIndexImport } from './pages/monitor-activities/index';
 import { Route as ExploreDataIndexImport } from './pages/explore-data/index';
+import { Route as ExploreData2IndexImport } from './pages/explore-data-2/index';
 import { Route as SearchDataRepositoriesIdImport } from './pages/search-data-repositories/$id';
 import { Route as RunComputationLayoutImport } from './pages/run-computation/_layout';
 import { Route as MonitorActivitiesDetailImport } from './pages/monitor-activities/detail';
 import { Route as MonitorActivitiesCalendarImport } from './pages/monitor-activities/calendar';
 import { Route as ExploreDataIdImport } from './pages/explore-data/$id';
+import { Route as ExploreData2IdImport } from './pages/explore-data-2/$id';
 import { Route as ContributeDataLayoutImport } from './pages/contribute-data/_layout';
 import { Route as CompareDataLayoutImport } from './pages/compare-data/_layout';
 import { Route as RunComputationLayoutIndexImport } from './pages/run-computation/_layout/index';
@@ -99,6 +101,12 @@ const ExploreDataIndexRoute = ExploreDataIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any);
 
+const ExploreData2IndexRoute = ExploreData2IndexImport.update({
+  id: '/explore-data-2/',
+  path: '/explore-data-2/',
+  getParentRoute: () => rootRoute,
+} as any);
+
 const SearchDataRepositoriesIdRoute = SearchDataRepositoriesIdImport.update({
   id: '/search-data-repositories/$id',
   path: '/search-data-repositories/$id',
@@ -125,6 +133,12 @@ const MonitorActivitiesCalendarRoute = MonitorActivitiesCalendarImport.update({
 const ExploreDataIdRoute = ExploreDataIdImport.update({
   id: '/explore-data/$id',
   path: '/explore-data/$id',
+  getParentRoute: () => rootRoute,
+} as any);
+
+const ExploreData2IdRoute = ExploreData2IdImport.update({
+  id: '/explore-data-2/$id',
+  path: '/explore-data-2/$id',
   getParentRoute: () => rootRoute,
 } as any);
 
@@ -269,6 +283,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContributeDataLayoutImport;
       parentRoute: typeof ContributeDataRoute;
     };
+    '/explore-data-2/$id': {
+      id: '/explore-data-2/$id';
+      path: '/explore-data-2/$id';
+      fullPath: '/explore-data-2/$id';
+      preLoaderRoute: typeof ExploreData2IdImport;
+      parentRoute: typeof rootRoute;
+    };
     '/explore-data/$id': {
       id: '/explore-data/$id';
       path: '/explore-data/$id';
@@ -309,6 +330,13 @@ declare module '@tanstack/react-router' {
       path: '/search-data-repositories/$id';
       fullPath: '/search-data-repositories/$id';
       preLoaderRoute: typeof SearchDataRepositoriesIdImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/explore-data-2/': {
+      id: '/explore-data-2/';
+      path: '/explore-data-2';
+      fullPath: '/explore-data-2';
+      preLoaderRoute: typeof ExploreData2IndexImport;
       parentRoute: typeof rootRoute;
     };
     '/explore-data/': {
@@ -566,11 +594,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute;
   '/compare-data': typeof CompareDataLayoutRouteWithChildren;
   '/contribute-data': typeof ContributeDataLayoutRouteWithChildren;
+  '/explore-data-2/$id': typeof ExploreData2IdRoute;
   '/explore-data/$id': typeof ExploreDataIdRoute;
   '/monitor-activities/calendar': typeof MonitorActivitiesCalendarRoute;
   '/monitor-activities/detail': typeof MonitorActivitiesDetailRoute;
   '/run-computation': typeof RunComputationLayoutRouteWithChildren;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
+  '/explore-data-2': typeof ExploreData2IndexRoute;
   '/explore-data': typeof ExploreDataIndexRoute;
   '/monitor-activities': typeof MonitorActivitiesIndexRoute;
   '/playground': typeof PlaygroundIndexRoute;
@@ -594,11 +624,13 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute;
   '/compare-data': typeof CompareDataLayoutIndexRoute;
   '/contribute-data': typeof ContributeDataLayoutIndexRoute;
+  '/explore-data-2/$id': typeof ExploreData2IdRoute;
   '/explore-data/$id': typeof ExploreDataIdRoute;
   '/monitor-activities/calendar': typeof MonitorActivitiesCalendarRoute;
   '/monitor-activities/detail': typeof MonitorActivitiesDetailRoute;
   '/run-computation': typeof RunComputationLayoutIndexRoute;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
+  '/explore-data-2': typeof ExploreData2IndexRoute;
   '/explore-data': typeof ExploreDataIndexRoute;
   '/monitor-activities': typeof MonitorActivitiesIndexRoute;
   '/playground': typeof PlaygroundIndexRoute;
@@ -622,12 +654,14 @@ export interface FileRoutesById {
   '/compare-data/_layout': typeof CompareDataLayoutRouteWithChildren;
   '/contribute-data': typeof ContributeDataRouteWithChildren;
   '/contribute-data/_layout': typeof ContributeDataLayoutRouteWithChildren;
+  '/explore-data-2/$id': typeof ExploreData2IdRoute;
   '/explore-data/$id': typeof ExploreDataIdRoute;
   '/monitor-activities/calendar': typeof MonitorActivitiesCalendarRoute;
   '/monitor-activities/detail': typeof MonitorActivitiesDetailRoute;
   '/run-computation': typeof RunComputationRouteWithChildren;
   '/run-computation/_layout': typeof RunComputationLayoutRouteWithChildren;
   '/search-data-repositories/$id': typeof SearchDataRepositoriesIdRoute;
+  '/explore-data-2/': typeof ExploreData2IndexRoute;
   '/explore-data/': typeof ExploreDataIndexRoute;
   '/monitor-activities/': typeof MonitorActivitiesIndexRoute;
   '/playground/': typeof PlaygroundIndexRoute;
@@ -654,11 +688,13 @@ export interface FileRouteTypes {
     | '/'
     | '/compare-data'
     | '/contribute-data'
+    | '/explore-data-2/$id'
     | '/explore-data/$id'
     | '/monitor-activities/calendar'
     | '/monitor-activities/detail'
     | '/run-computation'
     | '/search-data-repositories/$id'
+    | '/explore-data-2'
     | '/explore-data'
     | '/monitor-activities'
     | '/playground'
@@ -681,11 +717,13 @@ export interface FileRouteTypes {
     | '/'
     | '/compare-data'
     | '/contribute-data'
+    | '/explore-data-2/$id'
     | '/explore-data/$id'
     | '/monitor-activities/calendar'
     | '/monitor-activities/detail'
     | '/run-computation'
     | '/search-data-repositories/$id'
+    | '/explore-data-2'
     | '/explore-data'
     | '/monitor-activities'
     | '/playground'
@@ -707,12 +745,14 @@ export interface FileRouteTypes {
     | '/compare-data/_layout'
     | '/contribute-data'
     | '/contribute-data/_layout'
+    | '/explore-data-2/$id'
     | '/explore-data/$id'
     | '/monitor-activities/calendar'
     | '/monitor-activities/detail'
     | '/run-computation'
     | '/run-computation/_layout'
     | '/search-data-repositories/$id'
+    | '/explore-data-2/'
     | '/explore-data/'
     | '/monitor-activities/'
     | '/playground/'
@@ -738,11 +778,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
   CompareDataRoute: typeof CompareDataRouteWithChildren;
   ContributeDataRoute: typeof ContributeDataRouteWithChildren;
+  ExploreData2IdRoute: typeof ExploreData2IdRoute;
   ExploreDataIdRoute: typeof ExploreDataIdRoute;
   MonitorActivitiesCalendarRoute: typeof MonitorActivitiesCalendarRoute;
   MonitorActivitiesDetailRoute: typeof MonitorActivitiesDetailRoute;
   RunComputationRoute: typeof RunComputationRouteWithChildren;
   SearchDataRepositoriesIdRoute: typeof SearchDataRepositoriesIdRoute;
+  ExploreData2IndexRoute: typeof ExploreData2IndexRoute;
   ExploreDataIndexRoute: typeof ExploreDataIndexRoute;
   MonitorActivitiesIndexRoute: typeof MonitorActivitiesIndexRoute;
   PlaygroundIndexRoute: typeof PlaygroundIndexRoute;
@@ -753,11 +795,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompareDataRoute: CompareDataRouteWithChildren,
   ContributeDataRoute: ContributeDataRouteWithChildren,
+  ExploreData2IdRoute: ExploreData2IdRoute,
   ExploreDataIdRoute: ExploreDataIdRoute,
   MonitorActivitiesCalendarRoute: MonitorActivitiesCalendarRoute,
   MonitorActivitiesDetailRoute: MonitorActivitiesDetailRoute,
   RunComputationRoute: RunComputationRouteWithChildren,
   SearchDataRepositoriesIdRoute: SearchDataRepositoriesIdRoute,
+  ExploreData2IndexRoute: ExploreData2IndexRoute,
   ExploreDataIndexRoute: ExploreDataIndexRoute,
   MonitorActivitiesIndexRoute: MonitorActivitiesIndexRoute,
   PlaygroundIndexRoute: PlaygroundIndexRoute,
@@ -777,11 +821,13 @@ export const routeTree = rootRoute
         "/",
         "/compare-data",
         "/contribute-data",
+        "/explore-data-2/$id",
         "/explore-data/$id",
         "/monitor-activities/calendar",
         "/monitor-activities/detail",
         "/run-computation",
         "/search-data-repositories/$id",
+        "/explore-data-2/",
         "/explore-data/",
         "/monitor-activities/",
         "/playground/",
@@ -822,6 +868,9 @@ export const routeTree = rootRoute
         "/contribute-data/_layout/"
       ]
     },
+    "/explore-data-2/$id": {
+      "filePath": "explore-data-2/$id.tsx"
+    },
     "/explore-data/$id": {
       "filePath": "explore-data/$id.tsx"
     },
@@ -847,6 +896,9 @@ export const routeTree = rootRoute
     },
     "/search-data-repositories/$id": {
       "filePath": "search-data-repositories/$id.tsx"
+    },
+    "/explore-data-2/": {
+      "filePath": "explore-data-2/index.tsx"
     },
     "/explore-data/": {
       "filePath": "explore-data/index.tsx"

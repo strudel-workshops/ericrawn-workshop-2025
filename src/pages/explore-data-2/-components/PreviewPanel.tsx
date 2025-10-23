@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { LabelValueTable } from '../../../components/LabelValueTable';
-
 import { AppLink } from '../../../components/AppLink';
 
 interface PreviewPanelProps {
@@ -55,7 +54,7 @@ export const PreviewPanel: React.FC<PreviewPanelProps> = ({
         <Stack spacing={1}>
           <Stack direction="row">
             <Typography variant="h6" component="h3" flex={1}>
-              <AppLink to="/explore-data/$id" params={{ id: previewItem.id }}>
+              <AppLink to="/explore-data-2/$id" params={{ id: previewItem.id }}>
                 {previewItem.title || previewItem.place || 'Earthquake Event'}
               </AppLink>
             </Typography>
@@ -151,7 +150,7 @@ export const PreviewPanel: React.FC<PreviewPanelProps> = ({
         </Box>
 
         <Stack direction="row" spacing={1}>
-          <AppLink to="/explore-data/$id" params={{ id: previewItem.id }}>
+          <AppLink to="/explore-data-2/$id" params={{ id: previewItem.id }}>
             <Button variant="contained" size="small">
               View details
             </Button>

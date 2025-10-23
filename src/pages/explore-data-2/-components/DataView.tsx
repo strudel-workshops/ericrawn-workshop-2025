@@ -11,6 +11,7 @@ interface DataViewProps {
   filterConfigs: FilterConfig[];
   searchTerm: string;
   setPreviewItem: React.Dispatch<React.SetStateAction<any>>;
+  brushFilteredData?: any[];
 }
 /**
  * Query the data rows and render as an interactive table
@@ -19,6 +20,7 @@ export const DataView: React.FC<DataViewProps> = ({
   filterConfigs,
   searchTerm,
   setPreviewItem,
+  brushFilteredData,
 }) => {
   const { activeFilters } = useFilters();
   const [page, setPage] = useState(0);
@@ -82,11 +84,16 @@ export const DataView: React.FC<DataViewProps> = ({
   }
 
   // Show the data when the query completes
+  // Use brushFilteredData if provided, otherwise filter the data normally
+  const displayData =
+    brushFilteredData ||
+    filterData(data, activeFilters, filterConfigs, searchTerm);
+
   return (
     <>
       {isFetching && <LinearProgress variant="indeterminate" />}
       <SciDataGrid
-        rows={filterData(data, activeFilters, filterConfigs, searchTerm)}
+        rows={displayData}
         pagination
         paginationMode={queryMode}
         onPaginationModelChange={handlePaginationModelChange}

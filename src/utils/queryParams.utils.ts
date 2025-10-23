@@ -150,6 +150,24 @@ export const cleanPath = (url: string) => {
 };
 
 /**
+ * Transform GeoJSON features into flat objects for table display
+ */
+const transformGeoJsonFeatures = (features: any[]) => {
+  return features.map((feature) => {
+    const { properties, geometry, id } = feature;
+    const coordinates = geometry?.coordinates || [];
+    return {
+      id: id || properties.id || properties.code,
+      ...properties,
+      alert: properties.alert || 'none',
+      longitude: coordinates[0],
+      latitude: coordinates[1],
+      depth: coordinates[2],
+    };
+  });
+};
+
+/**
  * Fetch data from a local CSV, TSV, or JSON, or an external API
  * that returns JSON.
  */
@@ -173,7 +191,13 @@ export const fetchData = async (dataSource: string) => {
     data = await d3.tsv(dataSourcePath);
   } else if (fileExtension === 'json' || isExternal) {
     const response = await fetch(dataSourcePath);
-    data = await response.json();
+    const jsonData = await response.json();
+    // Check if this is GeoJSON format (has features array)
+    if (jsonData.type === 'FeatureCollection' && jsonData.features) {
+      data = transformGeoJsonFeatures(jsonData.features);
+    } else {
+      data = jsonData;
+    }
   }
   return data;
 };
